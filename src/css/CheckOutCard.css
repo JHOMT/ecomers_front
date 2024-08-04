@@ -1,0 +1,7 @@
+.card-start {
+  display: flex;
+  justify-content: space-between;
+}
+.rating {
+  display: flex;
+}
