@@ -1,12 +1,25 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import products from "../data/product_data";
-import "../css/Products.css";
-import Product from "./Product";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Product from "./Product";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import "../css/Products.css";
 
-function Products() {
+const Products = () => {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/products')
+            .then((response) => {
+                setProducts(response.data);
+            })
+            .catch((error) => {
+                console.error('There was an error!', error);
+            });
+    }, []);
+
     return (
         <Box className={'root'}>
             <Grid container spacing={3} className={'grid'}>

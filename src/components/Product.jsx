@@ -28,10 +28,21 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
+const StyledCard = styled(Card)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+}));
+
+const StyledCardMedia = styled(CardMedia)({
+    paddingTop: '56.25%',
+});
+
 export default function Product({ product }) {
-    const { id, name, productType, price, image, description, rating } = product;
+    const { id, name, productType, price, image, description, rating, stock } = product;
     const [expanded, setExpanded] = React.useState(false);
-    const [{ basket }, dispatch] = useStateValue();
+    const [, dispatch] = useStateValue();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -40,12 +51,12 @@ export default function Product({ product }) {
     const addToBasket = () => {
         dispatch({
             type: actionTypes.ADD_TO_BASKET,
-            item: { id, name, productType, price, rating, image, description }
+            item: { id, name, productType, price, rating, image, description, quantity: 1, stock }
         });
     };
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <StyledCard>
             <CardHeader
                 action={
                     <Typography
@@ -57,13 +68,11 @@ export default function Product({ product }) {
                     </Typography>
                 }
                 title={name}
-                subheader="In stock"
+                subheader={`En stock: ${stock}`}
             />
-            <CardMedia
-                component="img"
-                height="194"
+            <StyledCardMedia
                 image={image}
-                alt={name}
+                title={name}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
@@ -95,6 +104,6 @@ export default function Product({ product }) {
                     </Typography>
                 </CardContent>
             </Collapse>
-        </Card>
+        </StyledCard>
     );
 }

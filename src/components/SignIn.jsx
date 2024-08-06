@@ -13,7 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouteLink, useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebase";
+import axios from "axios";
+import { useStateValue, actionTypes } from '../context/StateProvider';
 
 function Copyright(props) {
     return (
@@ -28,20 +29,40 @@ function Copyright(props) {
     );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const navigate = useNavigate();
+    const [, dispatch] = useStateValue();
 
-    const signin = (e) => {
+    const signin = async (e) => {
         e.preventDefault();
-        auth.signInWithEmailAndPassword(email, password).then((authUser) => {
-            navigate("/");
-        }).catch(error => alert(error.message));
+        try {
+            const response = await axios.post('http://localhost:8080/user/login', {
+                email: email,
+                password: password
+            });
+            if (response.status === 200) {
+                const user = {
+                    id: response.data.id,
+                    name: response.data.username,
+                    email: response.data.email,
+                    token: response.data.token
+                };
+                dispatch({
+                    type: actionTypes.SET_USER,
+                    user: user,
+                });
+                navigate("/products");
+            } else {
+                alert("Usuario o contraseña incorrectos");
+            }
+        } catch (error) {
+            console.error('There was an error!', error);
+            alert("Hubo un error al iniciar sesión. Por favor, inténtalo de nuevo.");
+        }
     }
 
     return (
@@ -62,7 +83,7 @@ export default function SignIn() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={signin}>
                         <TextField
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -92,7 +113,6 @@ export default function SignIn() {
                             label="Remember me"
                         />
                         <Button
-                            onclick={signin}
                             type="submit"
                             fullWidth
                             variant="contained"

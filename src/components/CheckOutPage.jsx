@@ -5,23 +5,21 @@ import Typography from "@mui/material/Typography";
 import CheckOutCard from "./CheckOutCard";
 import Total from "./Total";
 import "../css/Products.css";
-import {useStateValue } from "../context/StateProvider";
+import { useStateValue } from "../context/StateProvider";
 
 const CheckOutPage = () => {
+    const [{ basket }] = useStateValue();
 
-    const [{ basket }, dispatch] = useStateValue();
-
-    function FormRow(){
+    function FormRow() {
         return (
             <React.Fragment>
                 {basket.map((item) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3}>
-                        <CheckOutCard key={item.id} product={item} />
+                    <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
+                        <CheckOutCard product={item} />
                     </Grid>
                 ))}
             </React.Fragment>
         );
-
     }
 
     return (
@@ -33,15 +31,16 @@ const CheckOutPage = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={8} md={9} container spacing={2}>
-                    <FormRow/>
+                    <FormRow />
                 </Grid>
                 <Grid item xs={12} sm={4} md={3}>
                     <Typography align={'center'} gutterBottom variant={'h6'}>
-                        <Total/>
+                        <Total />
                     </Typography>
                 </Grid>
             </Grid>
         </Box>
     );
 }
+
 export default CheckOutPage;

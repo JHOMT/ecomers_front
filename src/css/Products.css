@@ -11,3 +11,13 @@
     justify-content: center;
     align-items: initial;
 }
+.card-start {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+}

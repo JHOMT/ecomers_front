@@ -8,21 +8,44 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import accounting from 'accounting';
 import '../css/CheckOutCard.css';
 import IconButton from "@mui/material/IconButton";
+import { Button } from '@mui/material';
 import { actionTypes, useStateValue } from "../context/StateProvider";
+import {styled} from "@mui/material/styles";
 
-export default function CheckOutCard({product}) {
-    const { id, name, productType, price, image, description, rating } = product;
-    const [{ basket }, dispatch] = useStateValue();
+const StyledCard = styled(Card)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+}));
+
+export default function CheckOutCard({ product }) {
+    const { id, name, price, image, quantity, stock } = product;
+    const [, dispatch] = useStateValue();
 
     const removeItem = () => {
         dispatch({
             type: actionTypes.REMOVE_FROM_BASKET,
-            id: product.id
+            id: id
+        });
+    }
+
+    const increaseQuantity = () => {
+        dispatch({
+            type: actionTypes.INCREASE_QUANTITY,
+            id: id
+        });
+    }
+
+    const decreaseQuantity = () => {
+        dispatch({
+            type: actionTypes.DECREASE_QUANTITY,
+            id: id
         });
     }
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <StyledCard sx={{ maxWidth: 345 }}>
             <CardHeader
                 action={
                     <Typography
@@ -34,7 +57,7 @@ export default function CheckOutCard({product}) {
                     </Typography>
                 }
                 title={name}
-                subheader="In stock"
+                subheader={`En stock: ${stock}`}
             />
             <CardMedia
                 component="img"
@@ -43,19 +66,15 @@ export default function CheckOutCard({product}) {
                 alt={name}
             />
             <CardActions disableSpacing className={'card-start'}>
-                <div className={'rating'}>
-                    {Array(rating)
-                        .fill()
-                        .map((_, i) => (
-                            <p key={i}>&#11088;</p>
-                        ))
-                    }
-                </div>
-                <IconButton>
-                    <DeleteIcon fontSize={'large'} onClick={removeItem} />
+                <Button onClick={decreaseQuantity} size="small" color="primary">-</Button>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {quantity}
+                </Typography>
+                <Button onClick={increaseQuantity} size="small" color="primary">+</Button>
+                <IconButton onClick={removeItem}>
+                    <DeleteIcon fontSize={'large'} />
                 </IconButton>
             </CardActions>
-        </Card>
+        </StyledCard>
     );
 }
-
