@@ -10,7 +10,7 @@ import SignUp from "./components/SignUp";
 
 function App() {
     return (
-        <StateProvider initialState={initialState} reducer={reducer}>
+        <StateProvider initialState={initialState} reducer={reducer} >
             <Router>
                 <div className="App">
                     <Routes>
@@ -18,6 +18,7 @@ function App() {
                             <Route path="/products" element={<Products />} />
                             <Route path="/checkout" element={<CheckOutPage />} />
                         </Route>
+                        <Route path="/signin" element={<SignIn />} />
                         <Route path="/" element={<SignIn />} />
                         <Route path="/signup" element={<SignUp />} />
                     </Routes>

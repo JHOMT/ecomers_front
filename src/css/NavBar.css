@@ -1,24 +1,42 @@
-.root{
+.rootNavBar {
     flex-grow: 1;
 }
-strong{
-    color: black;
+
+.AppBar {
+    background-color: #333;
 }
-.appBar{
-    background-color: whitesmoke;
-    box-shadow: none;
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.menuButton {
+    margin-right: 16px;
+}
+
+.image {
+    height: 60px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
 .grow {
     flex-grow: 1;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: end;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.button {
+    display: flex;
     align-items: center;
 }
-.button {
-    margin-left: 10px;
-}
-.image {
-    margin-right: 10px;
-    height: 3rem;
+
+.optionsMenu {
+    margin-left: auto;
 }

@@ -32,7 +32,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '100%',
 }));
 
 const StyledCardMedia = styled(CardMedia)({

@@ -40,7 +40,7 @@ export default function SignIn() {
     const signin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/user/login', {
+            const response = await axios.post('http://localhost:8080/auth/login', {
                 email: email,
                 password: password
             });
@@ -51,10 +51,12 @@ export default function SignIn() {
                     email: response.data.email,
                     token: response.data.token
                 };
+                localStorage.setItem('user', JSON.stringify(user));
                 dispatch({
                     type: actionTypes.SET_USER,
                     user: user,
                 });
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
                 navigate("/products");
             } else {
                 alert("Usuario o contraseña incorrectos");

@@ -33,6 +33,7 @@ export const actionTypes = {
     DECREASE_QUANTITY: "DECREASE_QUANTITY",
     SET_USER: "SET_USER",
     REMOVE_ALL_FROM_BASKET: "REMOVE_ALL_FROM_BASKET",
+    REMOVE_USER: "REMOVE_USER",
 };
 
 export const getBasketTotal = (basket) => {
@@ -48,7 +49,6 @@ export const getUser = (user) => {
 }
 
 const reducer = (state, action) => {
-    console.log(action);
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
             const existingIndex = state.basket.findIndex(item => item.id === action.item.id);
@@ -97,6 +97,12 @@ const reducer = (state, action) => {
         case actionTypes.REMOVE_ALL_FROM_BASKET:
             return {
                 ...state,
+                basket: [],
+            };
+        case actionTypes.REMOVE_USER:
+            return {
+                ...state,
+                user: null,
                 basket: [],
             };
         default:
