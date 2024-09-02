@@ -1,3 +1,8 @@
+# Clone Api
+ ```bash
+ git clone https://github.com/JHOMT/ecommerce_api.git
+  ```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
